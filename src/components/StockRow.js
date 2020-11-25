@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { stock } from '../resources/stock.js'
 
 class StockRow extends Component {
 
@@ -10,12 +11,11 @@ class StockRow extends Component {
   }
 
   componentDidMount(){
+    stock.latestPrice(this.props.ticker)
+    .then((data) => {
     this.setState({
-      data: {
-        price: 5,
-        date: '12-07-12',
-        time: '09:45'
-      }
+      data: data[data.length - 1]
+      })
     })
   }
 
@@ -23,9 +23,9 @@ class StockRow extends Component {
     return(
       <tr>
         <td>{this.props.ticker}</td>
-        <td>{this.state.data.price}</td>
+        <td>{this.state.data.close}</td>
         <td>{this.state.data.date}</td>
-        <td>{this.state.data.time}</td>
+        <td>{this.state.data.label}</td>
       </tr>
     )
   }
